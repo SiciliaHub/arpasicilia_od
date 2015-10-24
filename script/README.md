@@ -1,3 +1,6 @@
+# Intro
+In questa cartella verranno inseriti script e snippet di codice utili al progetto.
+
 ## clean.py
 ### Intro
 Fa le seguenti cose:
