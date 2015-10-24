@@ -17,7 +17,7 @@ $  git checkout gh-pages
 $  cd data
 $  ../clean.py aria ariaweb
 ```
-Qui le cartelle di esempio di input e output: https://github.com/SiciliaHub/arpasicilia_od/tree/gh-pages/data
+Qui le cartelle di esempio di input e output: https://github.com/SiciliaHub/arpasicilia_od/tree/master/data
 
 ### Requisiti
 * Python 2.7
@@ -31,7 +31,7 @@ Al momento è una sorta di piccolo schema di operazioni da fare per la pulizia s
 * modifica il sepatatore di celle da `;` a `,`;
 * converte il valore sul data e ora presente nei CSV da `gg/mm/yyyy hh:mm` in `yyyy/mm/dd hh:mm`.
 
-Questo un file csv di test di [input](https://github.com/SiciliaHub/arpasicilia_od/blob/gh-pages/script/normalize_csv_testing/input.csv), e questo l'[output](https://github.com/SiciliaHub/arpasicilia_od/blob/gh-pages/script/normalize_csv_testing/out_03.csv).
+Questo un file csv di test di [input](https://github.com/SiciliaHub/arpasicilia_od/blob/master/script/normalize_csv_testing/input.csv), e questo l'[output](https://github.com/SiciliaHub/arpasicilia_od/blob/master/script/normalize_csv_testing/out_03.csv).
 
 ### Requisiti
 * Python 2.7;
