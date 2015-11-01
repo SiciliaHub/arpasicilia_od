@@ -36,3 +36,13 @@ Questo un file csv di test di [input](https://github.com/SiciliaHub/arpasicilia_
 ### Requisiti
 * Python 2.7;
 * [csvkit](https://csvkit.readthedocs.org/).
+
+## aria_meta.R
+###Intro
+
+E' uno script R per estrarre in batch una serie di metadati dai file contenuti in [questa cartella](https://github.com/SiciliaHub/arpasicilia_od/tree/master/data/aria) (inquinanti monitorati, nome delle stazioni, data, ecc.).
+
+Qui un esempio di output: https://gist.github.com/patperu/c9e959a8d86165f0eb47#file-parm_per_stazione-csv
+
+![](http://i.imgur.com/WZsGdUY.png)
+
