@@ -2,16 +2,17 @@
 
 options(stringsAsFactors = FALSE)
 
-xpath <- "E:/github/data/aria"
-
-files <- list.files(xpath, recursive = TRUE)
-
 get_data <- function(m) {
- z <- read.csv2(file.path(xpath, m), nrows = 6, stringsAsFactors = FALSE, head = FALSE)
+ z <- read.csv2(file.path(datadir, m), nrows = 6, stringsAsFactors = FALSE, head = FALSE)
  stazione <- z[2, 2]
  parm <- unique(unlist(z[3, ]))
  c(stazione, parm)
  }
+
+wd <- getwd()
+datadir <- file.path(wd, "data/aria")
+
+files <- list.files(datadir, recursive = TRUE)
 
 zz <- lapply(files, get_data)
 # http://r.789695.n4.nabble.com/How-to-rbind-list-of-vectors-with-unequal-vector-lengths-tp3032489p3032496.html
