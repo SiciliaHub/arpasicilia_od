@@ -26,8 +26,8 @@ get_data <- function(x) {
   parm      <- unique(as.character(y[3, ]))[-1]
   xcolnames <- unique(as.character(y[6, ]))[-1]
 
-  x_df <- lapply(parm, function(m) y[3, ] == m)
-  x_df <- lapply(x_df, function(m) w[, m])
+  parm_match <- lapply(parm, function(m) y[3, ] == m)
+  x_df <- lapply(parm_match, function(m) w[, m])
 
   xtime <- rep(xtime, length(x_df))
   xtime <- strptime(xtime, "%d/%m/%Y %H:%M")
@@ -45,6 +45,11 @@ get_data <- function(x) {
 
 }
 
+count_hours <- function(x){
+  m <- rle(x)
+  rep(m$lengths, m$lengths)
+}
+
 export_data <- function(x, outdir = "data/stazione_by_parm") {
   m <- split(x, f=paste(x$Stazione, x$Parm, sep = "_"))
   files <- paste0(names(m), ".csv")
@@ -60,14 +65,17 @@ wd <- getwd()
 datadir <- file.path(wd, "data/aria")
 
 m1 <- list.files(datadir, recursive = TRUE)
-
 m1 <- grep('\\d{8}', m1, value = TRUE)
 
 z <- lapply(m1, get_data)
 z <- do.call("rbind", z)
 
 z1 <- tbl_df(z) %>%
-  arrange(Stazione, Parm, xtime)
+  arrange(Stazione, Parm, xtime) %>%
+    group_by(Stazione, Parm) %>%
+      mutate(nhour = count_hours(hour))
+
+table(z1$nhour, z1$hour)
 
 z1$is_dup = duplicated(z1)
 
