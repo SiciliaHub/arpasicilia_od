@@ -51,7 +51,7 @@ count_hours <- function(x){
 }
 
 export_data <- function(x, outdir = "data/stazione_by_parm") {
-  m <- split(x, f=paste(x$Stazione, x$Parm, sep = "_"))
+  m <- split(x, f=paste(x$Stazione, format(x$xtime, "%Y%m%d"), sep = "_"))
   files <- paste0(names(m), ".csv")
   invisible(
     mapply(write.csv2, m, file = file.path(wd, outdir, files),
