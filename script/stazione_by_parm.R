@@ -50,7 +50,7 @@ count_hours <- function(x){
   rep(m$lengths, m$lengths)
 }
 
-export_data <- function(x, outdir = "data/stazione_by_parm") {
+export_data <- function(x, outdir = "data/stazione_by_day") {
   m <- split(x, f=paste(x$Stazione, format(x$xtime, "%Y%m%d"), sep = "_"))
   files <- paste0(names(m), ".csv")
   invisible(
