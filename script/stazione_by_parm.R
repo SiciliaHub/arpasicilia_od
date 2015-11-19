@@ -36,7 +36,7 @@ get_data <- function(x) {
   x_df <- as.data.frame(data.table::rbindlist(x_df))
   colnames(x_df) <- xcolnames
 
-  parm_vector <- rep(parm, each = nrow(w))
+  parm_vector <- toupper(rep(parm, each = nrow(w)))
 
   x_df <- data.frame(Stazione, xtime, hour,
                      Parm = parm_vector,
