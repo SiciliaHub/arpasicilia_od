@@ -9,6 +9,7 @@ library("dplyr")
 library("data.table")
 
 get_data <- function(x) {
+  # res = final dataset
 
   # data
   w <- read.csv2(file.path(datadir, x), skip = 6,
@@ -27,21 +28,21 @@ get_data <- function(x) {
   xcolnames <- unique(as.character(y[6, ]))[-1]
 
   parm_match <- lapply(parm, function(m) y[3, ] == m)
-  x_df <- lapply(parm_match, function(m) w[, m])
+  res <- lapply(parm_match, function(m) w[, m])
 
-  xtime <- rep(xtime, length(x_df))
+  xtime <- rep(xtime, length(res))
   xtime <- strptime(xtime, "%d/%m/%Y %H:%M")
   hour  <- hour(xtime)
 
-  x_df <- as.data.frame(data.table::rbindlist(x_df))
-  colnames(x_df) <- xcolnames
+  res <- as.data.frame(data.table::rbindlist(res))
+  colnames(res) <- xcolnames
 
   parm_vector <- toupper(rep(parm, each = nrow(w)))
 
-  x_df <- data.frame(Stazione, xtime, hour,
+  res  <- data.frame(Stazione, xtime, hour,
                      Parm = parm_vector,
                      x_df, stringsAsFactors = FALSE)
-  x_df
+  res
 
 }
 
