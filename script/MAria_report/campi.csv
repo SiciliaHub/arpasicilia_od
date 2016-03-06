@@ -1,0 +1,201 @@
+Intestazione_1,Intestazione_2,unita_misura,nome_campo_output
+partinico SO2(µg/m3)-2014,Max orario,(µg/m3),partinico_SO2_Max_orario
+partinico SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),partinico_SO2_Media_24_h
+partinico CO(mg/m3) - 2014,Max orario,(mg/m3),partinico_CO_Max_orario
+ partinico CO(mg/m3) -2014 ,Max media 8h,(mg/m3),partinico_CO_Max_media_8h
+partinico NO2 (µg/m3) -2014,Max orario,(µg/m3),partinico_NO2_Max_orario
+partinico O3 (µg/m3) -2014,Max orario,(µg/m3),partinico_O3_Max_orario
+partinico O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),partinico_O3_Max_media_8h
+partinico PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),partinico_PM10_Media_24_h
+partinico Benzene (µg/m3) -2014,Max orario,(µg/m3),partinico_Benzene_Max_orario
+partinico PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),partinico_PM2.5_Media_24_h
+sasol SO2(µg/m3)-2014,Max orario,(µg/m3),sasol_SO2_Max_orario
+sasol SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),sasol_SO2_Media_24_h
+sasol CO(mg/m3) - 2014,Max orario,(mg/m3),sasol_CO_Max_orario
+ sasol CO(mg/m3) -2014 ,Max media 8h,(mg/m3),sasol_CO_Max_media_8h
+sasol NO2 (µg/m3) -2014,Max orario,(µg/m3),sasol_NO2_Max_orario
+sasol O3 (µg/m3) -2014,Max orario,(µg/m3),sasol_O3_Max_orario
+sasol O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),sasol_O3_Max_media_8h
+sasol PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),sasol_PM10_Media_24_h
+sasol Benzene (µg/m3) -2014,Max orario,(µg/m3),sasol_Benzene_Max_orario
+sasol PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),sasol_PM2.5_Media_24_h
+enna SO2(µg/m3)-2014,Max orario,(µg/m3),enna_SO2_Max_orario
+enna SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),enna_SO2_Media_24_h
+enna CO(mg/m3) - 2014,Max orario,(mg/m3),enna_CO_Max_orario
+ enna CO(mg/m3) -2014 ,Max media 8h,(mg/m3),enna_CO_Max_media_8h
+enna NO2 (µg/m3) -2014,Max orario,(µg/m3),enna_NO2_Max_orario
+enna O3 (µg/m3) -2014,Max orario,(µg/m3),enna_O3_Max_orario
+enna O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),enna_O3_Max_media_8h
+enna PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),enna_PM10_Media_24_h
+enna Benzene (µg/m3) -2014,Max orario,(µg/m3),enna_Benzene_Max_orario
+enna PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),enna_PM2.5_Media_24_h
+ex_autoparco SO2(µg/m3)-2014,Max orario,(µg/m3),ex_autoparco_SO2_Max_orario
+ex_autoparco SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),ex_autoparco_SO2_Media_24_h
+ex_autoparco CO(mg/m3) - 2014,Max orario,(mg/m3),ex_autoparco_CO_Max_orario
+ ex_autoparco CO(mg/m3) -2014 ,Max media 8h,(mg/m3),ex_autoparco_CO_Max_media_8h
+ex_autoparco NO2 (µg/m3) -2014,Max orario,(µg/m3),ex_autoparco_NO2_Max_orario
+ex_autoparco O3 (µg/m3) -2014,Max orario,(µg/m3),ex_autoparco_O3_Max_orario
+ex_autoparco O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),ex_autoparco_O3_Max_media_8h
+ex_autoparco PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),ex_autoparco_PM10_Media_24_h
+ex_autoparco Benzene (µg/m3) -2014,Max orario,(µg/m3),ex_autoparco_Benzene_Max_orario
+ex_autoparco PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),ex_autoparco_PM2.5_Media_24_h
+parcheggio_agip SO2(µg/m3)-2014,Max orario,(µg/m3),parcheggio_agip_SO2_Max_orario
+parcheggio_agip SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),parcheggio_agip_SO2_Media_24_h
+parcheggio_agip CO(mg/m3) - 2014,Max orario,(mg/m3),parcheggio_agip_CO_Max_orario
+ parcheggio_agip CO(mg/m3) -2014 ,Max media 8h,(mg/m3),parcheggio_agip_CO_Max_media_8h
+parcheggio_agip NO2 (µg/m3) -2014,Max orario,(µg/m3),parcheggio_agip_NO2_Max_orario
+parcheggio_agip O3 (µg/m3) -2014,Max orario,(µg/m3),parcheggio_agip_O3_Max_orario
+parcheggio_agip O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),parcheggio_agip_O3_Max_media_8h
+parcheggio_agip PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),parcheggio_agip_PM10_Media_24_h
+parcheggio_agip Benzene (µg/m3) -2014,Max orario,(µg/m3),parcheggio_agip_Benzene_Max_orario
+parcheggio_agip PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),parcheggio_agip_PM2.5_Media_24_h
+trapani SO2(µg/m3)-2014,Max orario,(µg/m3),trapani_SO2_Max_orario
+trapani SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),trapani_SO2_Media_24_h
+trapani CO(mg/m3) - 2014,Max orario,(mg/m3),trapani_CO_Max_orario
+ trapani CO(mg/m3) -2014 ,Max media 8h,(mg/m3),trapani_CO_Max_media_8h
+trapani NO2 (µg/m3) -2014,Max orario,(µg/m3),trapani_NO2_Max_orario
+trapani O3 (µg/m3) -2014,Max orario,(µg/m3),trapani_O3_Max_orario
+trapani O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),trapani_O3_Max_media_8h
+trapani PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),trapani_PM10_Media_24_h
+trapani Benzene (µg/m3) -2014,Max orario,(µg/m3),trapani_Benzene_Max_orario
+trapani PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),trapani_PM2.5_Media_24_h
+termini SO2(µg/m3)-2014,Max orario,(µg/m3),termini_SO2_Max_orario
+termini SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),termini_SO2_Media_24_h
+termini CO(mg/m3) - 2014,Max orario,(mg/m3),termini_CO_Max_orario
+ termini CO(mg/m3) -2014 ,Max media 8h,(mg/m3),termini_CO_Max_media_8h
+termini NO2 (µg/m3) -2014,Max orario,(µg/m3),termini_NO2_Max_orario
+termini O3 (µg/m3) -2014,Max orario,(µg/m3),termini_O3_Max_orario
+termini O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),termini_O3_Max_media_8h
+termini PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),termini_PM10_Media_24_h
+termini Benzene (µg/m3) -2014,Max orario,(µg/m3),termini_Benzene_Max_orario
+termini PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),termini_PM2.5_Media_24_h
+cda_gabbia SO2(µg/m3)-2014,Max orario,(µg/m3),cda_gabbia_SO2_Max_orario
+cda_gabbia SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),cda_gabbia_SO2_Media_24_h
+cda_gabbia CO(mg/m3) - 2014,Max orario,(mg/m3),cda_gabbia_CO_Max_orario
+ cda_gabbia CO(mg/m3) -2014 ,Max media 8h,(mg/m3),cda_gabbia_CO_Max_media_8h
+cda_gabbia NO2 (µg/m3) -2014,Max orario,(µg/m3),cda_gabbia_NO2_Max_orario
+cda_gabbia O3 (µg/m3) -2014,Max orario,(µg/m3),cda_gabbia_O3_Max_orario
+cda_gabbia O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),cda_gabbia_O3_Max_media_8h
+cda_gabbia PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),cda_gabbia_PM10_Media_24_h
+cda_gabbia Benzene (µg/m3) -2014,Max orario,(µg/m3),cda_gabbia_Benzene_Max_orario
+cda_gabbia PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),cda_gabbia_PM2.5_Media_24_h
+termica_milazzo SO2(µg/m3)-2014,Max orario,(µg/m3),termica_milazzo_SO2_Max_orario
+termica_milazzo SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),termica_milazzo_SO2_Media_24_h
+termica_milazzo CO(mg/m3) - 2014,Max orario,(mg/m3),termica_milazzo_CO_Max_orario
+ termica_milazzo CO(mg/m3) -2014 ,Max media 8h,(mg/m3),termica_milazzo_CO_Max_media_8h
+termica_milazzo NO2 (µg/m3) -2014,Max orario,(µg/m3),termica_milazzo_NO2_Max_orario
+termica_milazzo O3 (µg/m3) -2014,Max orario,(µg/m3),termica_milazzo_O3_Max_orario
+termica_milazzo O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),termica_milazzo_O3_Max_media_8h
+termica_milazzo PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),termica_milazzo_PM10_Media_24_h
+termica_milazzo Benzene (µg/m3) -2014,Max orario,(µg/m3),termica_milazzo_Benzene_Max_orario
+termica_milazzo PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),termica_milazzo_PM2.5_Media_24_h
+boccetta SO2(µg/m3)-2014,Max orario,(µg/m3),boccetta_SO2_Max_orario
+boccetta SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),boccetta_SO2_Media_24_h
+boccetta CO(mg/m3) - 2014,Max orario,(mg/m3),boccetta_CO_Max_orario
+ boccetta CO(mg/m3) -2014 ,Max media 8h,(mg/m3),boccetta_CO_Max_media_8h
+boccetta NO2 (µg/m3) -2014,Max orario,(µg/m3),boccetta_NO2_Max_orario
+boccetta O3 (µg/m3) -2014,Max orario,(µg/m3),boccetta_O3_Max_orario
+boccetta O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),boccetta_O3_Max_media_8h
+boccetta PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),boccetta_PM10_Media_24_h
+boccetta Benzene (µg/m3) -2014,Max orario,(µg/m3),boccetta_Benzene_Max_orario
+boccetta PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),boccetta_PM2.5_Media_24_h
+misterbianco SO2(µg/m3)-2014,Max orario,(µg/m3),misterbianco_SO2_Max_orario
+misterbianco SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),misterbianco_SO2_Media_24_h
+misterbianco CO(mg/m3) - 2014,Max orario,(mg/m3),misterbianco_CO_Max_orario
+ misterbianco CO(mg/m3) -2014 ,Max media 8h,(mg/m3),misterbianco_CO_Max_media_8h
+misterbianco NO2 (µg/m3) -2014,Max orario,(µg/m3),misterbianco_NO2_Max_orario
+misterbianco O3 (µg/m3) -2014,Max orario,(µg/m3),misterbianco_O3_Max_orario
+misterbianco O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),misterbianco_O3_Max_media_8h
+misterbianco PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),misterbianco_PM10_Media_24_h
+misterbianco Benzene (µg/m3) -2014,Max orario,(µg/m3),misterbianco_Benzene_Max_orario
+misterbianco PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),misterbianco_PM2.5_Media_24_h
+megara SO2(µg/m3)-2014,Max orario,(µg/m3),megara_SO2_Max_orario
+megara SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),megara_SO2_Media_24_h
+megara CO(mg/m3) - 2014,Max orario,(mg/m3),megara_CO_Max_orario
+ megara CO(mg/m3) -2014 ,Max media 8h,(mg/m3),megara_CO_Max_media_8h
+megara NO2 (µg/m3) -2014,Max orario,(µg/m3),megara_NO2_Max_orario
+megara O3 (µg/m3) -2014,Max orario,(µg/m3),megara_O3_Max_orario
+megara O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),megara_O3_Max_media_8h
+megara PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),megara_PM10_Media_24_h
+megara Benzene (µg/m3) -2014,Max orario,(µg/m3),megara_Benzene_Max_orario
+megara PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),megara_PM2.5_Media_24_h
+Lab_Mobile_1_SO2(µg/m3)-2014,Max orario,(µg/m3),lab_mobile_1_so2__Max_orario
+Lab_Mobile_1_SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),lab_mobile_1_so2__Media_24_h
+Lab_Mobile1 CO(mg/m3) - 2014,Max orario,(mg/m3),lab_mobile1_CO_Max_orario
+ Lab_Mobile1 CO(mg/m3) -2014 ,Max media 8h,(mg/m3),lab_mobile1_CO_Max_media_8h
+Lab_Mobile1 NO2 (µg/m3) -2014,Max orario,(µg/m3),lab_mobile1_NO2_Max_orario
+Lab_Mobile1 O3 (µg/m3) -2014,Max orario,(µg/m3),lab_mobile1_O3_Max_orario
+Lab_Mobile1 O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),lab_mobile1_O3_Max_media_8h
+Lab_Mobile1 PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),lab_mobile1_PM10_Media_24_h
+Lab_Mobile1 Benzene (µg/m3) -2014,Max orario,(µg/m3),lab_mobile1_Benzene_Max_orario
+Lab_Mobile1 PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),lab_mobile1_PM2.5_Media_24_h
+PORTO EMPEDOCLE_SO2(µg/m3)-2014,Max orario,(µg/m3),porto_empedocle_SO2_Max_orario
+PORTO EMPEDOCLE SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),porto_empedocle_SO2_Media_24_h
+PORTO EMPEDOCLE CO(mg/m3) - 2014,Max orario,(mg/m3),porto_empedocle_CO_Max_orario
+PORTO EMPEDOCLE CO(mg/m3) -2014 ,Max media 8h,(mg/m3),porto_empedocle_CO_Max_media_8h
+PORTO EMPEDOCLE NO2 (µg/m3) -2014,Max orario,(µg/m3),porto_empedocle_NO2_Max_orario
+PORTO EMPEDOCLE O3 (µg/m3) -2014,Max orario,(µg/m3),porto_empedocle_O3_Max_orario
+PORTO EMPEDOCLE O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),porto_empedocle_O3_Max_media_8h
+PORTO EMPEDOCLE PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),porto_empedocle_PM10_Media_24_h
+PORTO EMPEDOCLE Benzene (µg/m3) -2014,Max orario,(µg/m3),porto_empedocle_Benzene_Max_orario
+PORTO EMPEDOCLE PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),porto_empedocle_PM2.5_Media_24_h
+VILLA AUGUSTA_SO2(µg/m3)-2014,Max orario,(µg/m3),villa_augusta_SO2_Max_orario
+VILLA AUGUSTA SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),villa_augusta_SO2_Media_24_h
+VILLA AUGUSTA CO(mg/m3) - 2014,Max orario,(mg/m3),villa_augusta_CO_Max_orario
+VILLA AUGUSTA CO(mg/m3) -2014 ,Max media 8h,(mg/m3),villa_augusta_CO_Max_media_8h
+VILLA AUGUSTA NO2 (µg/m3) -2014,Max orario,(µg/m3),villa_augusta_NO2_Max_orario
+VILLA AUGUSTA O3 (µg/m3) -2014,Max orario,(µg/m3),villa_augusta_O3_Max_orario
+VILLA AUGUSTA O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),villa_augusta_O3_Max_media_8h
+VILLA AUGUSTA PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),villa_augusta_PM10_Media_24_h
+VILLA AUGUSTA Benzene (µg/m3) -2014,Max orario,(µg/m3),villa_augusta_Benzene_Max_orario
+VILLA AUGUSTA PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),villa_augusta_PM2.5_Media_24_h
+Lab_Mobile_4_SO2(µg/m3)-2014,Max orario,(µg/m3),lab_mobile_4_so2__Max_orario
+Lab_Mobile_4 SO2 (µg/m3) - 2014,Media 24 h,(µg/m3),lab_mobile_4_SO2_Media_24_h
+Lab_Mobile_4 CO(mg/m3) - 2014,Max orario,(mg/m3),lab_mobile_4_CO_Max_orario
+ Lab_Mobile_4 CO(mg/m3) -2014 ,Max media 8h,(mg/m3),lab_mobile_4_CO_Max_media_8h
+Lab_Mobile_4 NO2 (µg/m3) -2014,Max orario,(µg/m3),lab_mobile_4_NO2_Max_orario
+Lab_Mobile_4 O3 (µg/m3) -2014,Max orario,(µg/m3),lab_mobile_4_O3_Max_orario
+Lab_Mobile_4 O3 (µg/m3) - 2014 ,Max media 8h,(µg/m3),lab_mobile_4_O3_Max_media_8h
+Lab_Mobile_4 PM 10 (µg/m3) -2014,Media 24 h,(µg/m3),lab_mobile_4_PM10_Media_24_h
+Lab_Mobile_4 Benzene (µg/m3) -2014,Max orario,(µg/m3),lab_mobile_4_Benzene_Max_orario
+Lab_Mobile_4 PM 2.5 (µg/m3) -2014,Media 24 h,(µg/m3),lab_mobile_4_PM2.5_Media_24_h
+partinico O3,,,partinico_O3
+partinico NO2,,,partinico_NO2
+partinico SO2,,,partinico_SO2
+sasol O3,,,sasol_O3
+sasol NO2,,,sasol_NO2
+sasol SO2,,,sasol_SO2
+enna O3,,,enna_O3
+enna NO2,,,enna_NO2
+enna SO2,,,enna_SO2
+ex_autoparco O3,,,ex_autoparco_O3
+ex_autoparco NO2,,,ex_autoparco_NO2
+ex_autoparco SO2,,,ex_autoparco_SO2
+parcheggio_agip O3,,,parcheggio_agip_O3
+parcheggio_agip NO2,,,parcheggio_agip_NO2
+parcheggio_agip SO2,,,parcheggio_agip_SO2
+trapani O3,,,trapani_O3
+trapani NO2,,,trapani_NO2
+trapani SO2,,,trapani_SO2
+termini O3,,,termini_O3
+termini NO2,,,termini_NO2
+termini SO2,,,termini_SO2
+cda_gabbia O3,,,cda_gabbia_O3
+cda_gabbia NO2,,,cda_gabbia_NO2
+cda_gabbia SO2,,,cda_gabbia_SO2
+termica_milazzo O3,,,termica_milazzo_O3
+termica_milazzo NO2,,,termica_milazzo_NO2
+termica_milazzo SO2,,,termica_milazzo_SO2
+boccetta O3,,,boccetta_O3
+boccetta NO2,,,boccetta_NO2
+boccetta SO2,,,boccetta_SO2
+misterbianco O3,,,misterbianco_O3
+misterbianco NO2,,,misterbianco_NO2
+misterbianco SO2,,,misterbianco_SO2
+megara O3,,,megara_O3
+megara NO2,,,megara_NO2
+megara SO2,,,megara_SO2
+Lab_Mobile1_sito,,,lab_mobile1_sito
+Lab_Mobile2_sito,,,lab_mobile2_sito
+Lab_Mobile3_sito,,,lab_mobile3_sito
+Lab_Mobile4_sito,,,lab_mobile4_sito
