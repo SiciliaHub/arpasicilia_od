@@ -10,10 +10,10 @@ cartella="/cartelladilavoro/arpa"
 
 mariaDB="http://88.53.168.210/Bollettino2/MAria_report.xls"
 
-#download file
-
+#download file (commentato perché al momento spesso non funzionante)
 #curl -s $mariaDB > $cartella/MAria_report.xls
 
+# converto il file da xls a csv
 in2csv $cartella/MAria_report.xls -f xls > $cartella/MAria_report.csv
 
 #rimuovo le prime due righe
