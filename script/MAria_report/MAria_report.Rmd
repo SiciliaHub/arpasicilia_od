@@ -1,0 +1,97 @@
+---
+title: "MAria_report"
+author: "Patrick Hausmann"
+date: "08/03/2016"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library('stringr')
+library('reshape2')
+library('ggplot2')
+
+options(stringsAsFactors = FALSE)
+```
+
+```{r}
+
+split_names <- function(m) {
+   stazione <- zz$stazione[which(str_detect(m, zz$stazione))]
+   inq      <- zz$inq[which(str_detect(m, zz$inq))]
+   tdm      <- zz$tdm[which(str_detect(m, zz$tdm))]
+   out <- paste(stazione, inq, tdm, sep = "__")
+   out
+}
+
+# tdm -> tipo di misura
+
+zz <- read.table(header = TRUE, sep = ";", text = "
+stazione;inq;tdm
+partinico;SO2;Max_orario
+sasol;CO;Media_24_h
+enna;NO2;Max_media_8h
+ex_autoparco;O3;NA
+trapani;Benzene;NA
+termini;PM10;NA
+cda_gabbia;PM2.5;NA
+termica_milazzo;NA;NA
+boccetta;NA;NA
+misterbianco;NA;NA
+megara;NA;NA
+lab_mobile1;NA;NA
+porto_empedocle;NA;NA
+villa_augusta;NA;NA
+parcheggio_agip;NA;NA
+")
+
+zz %>% knitr::kable()
+
+x <- read.csv("https://raw.githubusercontent.com/SiciliaHub/arpasicilia_od/master/script/MAria_report/MAria_report_04.csv")
+
+colnames(x) <- c("date", unlist(lapply(colnames(x), split_names)))
+
+xm <- melt(x, id = "date")
+xm$variable <- as.character(xm$variable)
+
+u <- data.frame(do.call("rbind", strsplit(xm$variable, "__")), stringsAsFactors = FALSE)
+colnames(u) <- c("stazione", "inq", "tdm")
+fin <- data.frame(u, date = xm$date, value = xm$value)
+
+head(fin) %>% knitr::kable()
+
+```
+
+```{r}
+addmargins(table(fin$stazione, !is.na(fin$value), useNA= "always")) %>% knitr::kable()
+```
+
+addmargins(table(fin$stazione, fin$inq, useNA= "always")) %>% knitr::kable()
+```{r}
+addmargins(table(fin$stazione, fin$inq, useNA= "always")) %>% knitr::kable()
+```
+
+### Export csv file (gzipped)
+
+```{r}
+con_out <- gzfile("maria_report_04_long.csv.gz", open = "wb")
+   write.csv(fin, file = con_out, row.names = FALSE)
+close(con_out)
+```
+
+### PM10 - Enna e Trapani
+
+```{r Plot_PM10_Enna_Trapani}
+
+fin_enna_pm10 <- subset(fin, subset = stazione %in% c("enna", "trapani") & inq == "PM10" & tdm == "Media_24_h")
+p1 <- ggplot(fin_enna_pm10, aes(x=as.Date(date), y=value, col= stazione)) + geom_line()
+p1 <- p1 + facet_wrap( ~ stazione)
+p1 <- p1 + geom_smooth()
+p1
+
+```
+
+
