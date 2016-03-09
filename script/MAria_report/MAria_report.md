@@ -63,7 +63,7 @@ zz %>% knitr::kable()
 | parcheggio\_agip | NA      | NA             |
 
 ``` r
-x <- read.csv("https://raw.githubusercontent.com/SiciliaHub/arpasicilia_od/master/script/MAria_report/MAria_report_04.csv")
+x <- read.csv("http://dev.opendatasicilia.it/arpa/MAria_report.csv")
 
 colnames(x) <- c("date", unlist(lapply(colnames(x), split_names)))
 
@@ -93,22 +93,22 @@ addmargins(table(fin$stazione, !is.na(fin$value), useNA= "always")) %>% knitr::k
 |                  |  FALSE|   TRUE|   NA|     Sum|
 |------------------|------:|------:|----:|-------:|
 | boccetta         |   8034|    732|    0|    8766|
-| cda\_gabbia      |   1834|   4010|    0|    5844|
-| enna             |   3975|   9174|    0|   13149|
-| ex\_autoparco    |    631|    830|    0|    1461|
+| cda\_gabbia      |   1793|   4051|    0|    5844|
+| enna             |   3876|   9273|    0|   13149|
+| ex\_autoparco    |    620|    841|    0|    1461|
 | lab\_mobile1     |   5609|    235|    0|    5844|
-| megara           |    553|    908|    0|    1461|
-| misterbianco     |   3553|   9596|    0|   13149|
-| parcheggio\_agip |    617|    844|    0|    1461|
-| partinico        |   3339|   9810|    0|   13149|
+| megara           |    543|    918|    0|    1461|
+| misterbianco     |   3454|   9695|    0|   13149|
+| parcheggio\_agip |    606|    855|    0|    1461|
+| partinico        |   3241|   9908|    0|   13149|
 | porto\_empedocle |  13964|    646|    0|   14610|
-| sasol            |    822|    639|    0|    1461|
-| termica\_milazzo |   3416|   6811|    0|   10227|
-| termini          |   3662|   9487|    0|   13149|
-| trapani          |   3974|   9175|    0|   13149|
-| villa\_augusta   |   1311|    150|    0|    1461|
+| sasol            |    812|    649|    0|    1461|
+| termica\_milazzo |   3365|   6862|    0|   10227|
+| termini          |   3564|   9585|    0|   13149|
+| trapani          |   3875|   9274|    0|   13149|
+| villa\_augusta   |   1302|    159|    0|    1461|
 | NA               |      0|      0|    0|       0|
-| Sum              |  55294|  63047|    0|  118341|
+| Sum              |  54658|  63683|    0|  118341|
 
 addmargins(table(fin\(stazione, fin\)inq, useNA= "always")) %&gt;% knitr::kable()
 
@@ -154,8 +154,8 @@ p1 <- p1 + geom_smooth()
 p1
 ```
 
-    ## Warning: Removed 859 rows containing non-finite values (stat_smooth).
+    ## Warning: Removed 837 rows containing non-finite values (stat_smooth).
 
-    ## Warning: Removed 628 rows containing missing values (geom_path).
+    ## Warning: Removed 606 rows containing missing values (geom_path).
 
 ![](MAria_report_files/figure-markdown_github/Plot_PM10_Enna_Trapani-1.png)<!-- -->

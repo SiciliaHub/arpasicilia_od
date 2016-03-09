@@ -50,7 +50,7 @@ parcheggio_agip;NA;NA
 
 zz %>% knitr::kable()
 
-x <- read.csv("https://raw.githubusercontent.com/SiciliaHub/arpasicilia_od/master/script/MAria_report/MAria_report_04.csv")
+x <- read.csv("http://dev.opendatasicilia.it/arpa/MAria_report.csv")
 
 colnames(x) <- c("date", unlist(lapply(colnames(x), split_names)))
 
