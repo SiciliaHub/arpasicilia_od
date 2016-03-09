@@ -1,7 +1,7 @@
 ---
 title: "MAria_report"
 author: "Patrick Hausmann"
-date: "08/03/2016"
+date: "09/03/2016"
 output: github_document
 ---
 
@@ -13,6 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library('stringr')
 library('reshape2')
 library('ggplot2')
+library('dplyr')
+library('tidyr')
 
 options(stringsAsFactors = FALSE)
 ```
@@ -69,7 +71,7 @@ head(fin) %>% knitr::kable()
 addmargins(table(fin$stazione, !is.na(fin$value), useNA= "always")) %>% knitr::kable()
 ```
 
-addmargins(table(fin$stazione, fin$inq, useNA= "always")) %>% knitr::kable()
+
 ```{r}
 addmargins(table(fin$stazione, fin$inq, useNA= "always")) %>% knitr::kable()
 ```
@@ -95,4 +97,22 @@ p1
 
 ```
 
+### Days per year with a PM10 value over 50 mg/m3 (max. 35 excedances allowed per year)
+
+```{r}
+
+m <- tbl_df(fin) %>%
+       filter(inq == "PM10") %>%
+       mutate(year = format(as.Date(date), "%Y")) %>%
+       group_by(stazione, year) %>%
+       mutate(days_gt50 = cumsum(ifelse(!is.na(value) & value > 50, 1, 0))) %>%
+       select(stazione, year, days_gt50) %>%
+       top_n(1, days_gt50) %>%
+       distinct(stazione, year) %>%
+       ungroup() %>%
+       arrange(stazione, year)
+
+spread(m, year, days_gt50) %>% knitr::kable()
+
+```
 

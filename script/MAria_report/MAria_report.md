@@ -1,12 +1,28 @@
 MAria\_report
 ================
 Patrick Hausmann
-08/03/2016
+09/03/2016
 
 ``` r
 library('stringr')
 library('reshape2')
 library('ggplot2')
+library('dplyr')
+```
+
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+``` r
+library('tidyr')
 
 options(stringsAsFactors = FALSE)
 ```
@@ -110,8 +126,6 @@ addmargins(table(fin$stazione, !is.na(fin$value), useNA= "always")) %>% knitr::k
 | NA               |      0|      0|    0|       0|
 | Sum              |  54658|  63683|    0|  118341|
 
-addmargins(table(fin\(stazione, fin\)inq, useNA= "always")) %&gt;% knitr::kable()
-
 ``` r
 addmargins(table(fin$stazione, fin$inq, useNA= "always")) %>% knitr::kable()
 ```
@@ -150,6 +164,7 @@ close(con_out)
 fin_enna_pm10 <- subset(fin, subset = stazione %in% c("enna", "trapani") & inq == "PM10" & tdm == "Media_24_h")
 p1 <- ggplot(fin_enna_pm10, aes(x=as.Date(date), y=value, col= stazione)) + geom_line()
 p1 <- p1 + facet_wrap( ~ stazione)
+p1 <- p1 + geom_hline(yintercept = 50, col = "blue")
 p1 <- p1 + geom_smooth()
 p1
 ```
@@ -159,3 +174,31 @@ p1
     ## Warning: Removed 606 rows containing missing values (geom_path).
 
 ![](MAria_report_files/figure-markdown_github/Plot_PM10_Enna_Trapani-1.png)<!-- -->
+
+### Days per year with a PM10 value over 50 mg/m3 (max. 35 excedances allowed per year)
+
+``` r
+m <- tbl_df(fin) %>%
+       filter(inq == "PM10") %>%
+       mutate(year = format(as.Date(date), "%Y")) %>%
+       group_by(stazione, year) %>%
+       mutate(days_gt50 = cumsum(ifelse(!is.na(value) & value > 50, 1, 0))) %>%
+       select(stazione, year, days_gt50) %>%
+       top_n(1, days_gt50) %>%
+       distinct(stazione, year) %>%
+       ungroup() %>%
+       arrange(stazione, year)
+
+spread(m, year, days_gt50) %>% knitr::kable()
+```
+
+| stazione         |  2013|  2014|  2015|  2016|
+|:-----------------|-----:|-----:|-----:|-----:|
+| boccetta         |     0|     0|     0|     0|
+| enna             |     4|     9|     6|     0|
+| misterbianco     |     4|    16|     5|     1|
+| partinico        |     4|    21|     9|     1|
+| porto\_empedocle |     0|     0|    29|     0|
+| termica\_milazzo |     5|    18|     8|     3|
+| termini          |     2|     9|     6|     2|
+| trapani          |     2|    12|     1|     1|
