@@ -89,6 +89,7 @@ close(con_out)
 fin_enna_pm10 <- subset(fin, subset = stazione %in% c("enna", "trapani") & inq == "PM10" & tdm == "Media_24_h")
 p1 <- ggplot(fin_enna_pm10, aes(x=as.Date(date), y=value, col= stazione)) + geom_line()
 p1 <- p1 + facet_wrap( ~ stazione)
+p1 <- p1 + geom_hline(yintercept = 50, col = "blue")
 p1 <- p1 + geom_smooth()
 p1
 
