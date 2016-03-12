@@ -1,8 +1,12 @@
 ---
-title: "MAria_report"
+title: "Maria_report"
 author: "Patrick Hausmann"
-date: "09/03/2016"
-output: github_document
+date: "12/03/2016"
+output: 
+     html_document:
+        toc: true
+        keep_md: true
+always_allow_html: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -15,6 +19,7 @@ library('reshape2')
 library('ggplot2')
 library('dplyr')
 library('tidyr')
+library('highcharter')
 
 options(stringsAsFactors = FALSE)
 ```
@@ -51,6 +56,11 @@ parcheggio_agip;NA;NA
 ")
 
 zz %>% knitr::kable()
+```
+
+### Import the data
+
+```{r}
 
 x <- read.csv("http://dev.opendatasicilia.it/arpa/MAria_report.csv")
 
@@ -94,6 +104,27 @@ p1 <- p1 + facet_wrap( ~ stazione)
 p1 <- p1 + geom_hline(yintercept = 50, col = "blue")
 p1 <- p1 + geom_smooth()
 p1
+
+```
+
+### Highcharter
+
+```{r highcharter, eval = TRUE}
+
+fin_hc <- tbl_df(fin) %>% 
+          filter(stazione %in% c("enna", "trapani"), inq == "PM10", tdm == "Media_24_h") %>%
+          mutate(year_month = format(as.Date(date), "%Y-%m")) %>%
+          group_by(stazione, year_month) %>%
+          summarise(mean_val = round(mean(value, na.rm = TRUE), 2)) %>%
+          ungroup()
+
+fin_hc <- data.frame(fin_hc)
+
+hc1 <- highchart() %>% 
+        hc_xAxis(categories = fin_hc$year_month) %>% 
+        hc_add_series(name = "Enna", data = fin_hc[fin_hc$stazione=="enna", "mean_val"]) %>%
+        hc_add_series(name = "Trapani", data = fin_hc[fin_hc$stazione=="trapani", "mean_val"])
+hc1
 
 ```
 
