@@ -24,6 +24,7 @@ library('ggplot2')
 library('dplyr')
 library('tidyr')
 library('highcharter')
+library('vegalite')
 
 options(stringsAsFactors = FALSE)
 ```
@@ -129,6 +130,23 @@ hc1 <- highchart() %>%
         hc_add_series(name = "Enna", data = fin_hc[fin_hc$stazione=="enna", "mean_val"]) %>%
         hc_add_series(name = "Trapani", data = fin_hc[fin_hc$stazione=="trapani", "mean_val"])
 hc1
+
+```
+
+### Vegalite
+
+```{r Vegalite}
+
+vegalite(export=TRUE) %>%
+  cell_size(400, 400) %>% 
+  add_data(fin_hc) %>%
+  encode_x("year_month", "temporal") %>%
+  encode_y("mean_val", "quantitative") %>%
+  encode_color("stazione", "nominal") %>% 
+  axis_x(axisWidth=0, format="%Y", labelAngle=0) %>%
+  mark_line() -> vl
+
+vl
 
 ```
 
