@@ -1,12 +1,16 @@
 ---
 title: "Maria_report"
 author: "Patrick Hausmann"
-date: "12/03/2016"
-output: 
-     html_document:
-        toc: true
-        keep_md: true
-always_allow_html: yes
+date: "13/03/2016"
+output:
+  github_document:
+    toc: true
+    toc_depth: 3
+    html_preview: false
+  html_document:
+    toc: true
+    toc_depth: 3
+always_allow_html: true
 ---
 
 ```{r setup, include=FALSE}
@@ -144,6 +148,12 @@ m <- tbl_df(fin) %>%
        arrange(stazione, year)
 
 spread(m, year, days_gt50) %>% knitr::kable()
+
+```
+
+```{r session_info}
+
+devtools::session_info()
 
 ```
 
