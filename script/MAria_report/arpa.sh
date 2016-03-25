@@ -10,7 +10,14 @@ cartella="/cartelladilavoro/arpa"
 
 mariaDB="http://88.53.168.210/Bollettino2/MAria_report.xls"
 
-#download file (commentato perché al momento spesso non funzionante)
+# verifico la risposta del server
+code=$(curl -s -o /dev/null -w "%{http_code}" $mariaDB)
+
+# se il file è raggiunbile lo script continua, altrimenti si blocca
+if [ $code -eq 200 ]
+then
+
+#download file 
 #curl -s $mariaDB > $cartella/MAria_report.xls
 
 # converto il file da xls a csv
@@ -33,3 +40,5 @@ colonnevuote=$(cat $cartella/campi.csv | grep 'NoneType' | sed 's/,.*$//g' | tr 
 
 # estraggo un csv che contiene le sole colonne che non sono vuote
 csvcut -C $colonnevuote $cartella/MAria_report_03.csv > $cartella/MAria_report_04.csv
+
+fi
