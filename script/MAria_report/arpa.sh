@@ -8,6 +8,9 @@
 #impostare il nome corretto della cartella di lavoro
 cartella="/cartelladilavoro/arpa"
 
+#cartella accessibile via web
+web="/var/www/arpa"
+
 mariaDB="http://88.53.168.210/Bollettino2/MAria_report.xls"
 
 # verifico la risposta del server
@@ -39,6 +42,9 @@ csvstat $cartella/MAria_report_03.csv | tee $cartella/MAria_report_03.txt | awk 
 colonnevuote=$(cat $cartella/campi.csv | grep 'NoneType' | sed 's/,.*$//g' | tr '\n' ',' | sed s/,$//g)
 
 # estraggo un csv che contiene le sole colonne che non sono vuote
-csvcut -C $colonnevuote $cartella/MAria_report_03.csv > $cartella/MAria_report_04.csv
+csvcut -C $colonnevuote $cartella/MAria_report_03.csv > $cartella/MAria_report_temp.csv
+
+# rimuovi tutti i record con data precendente a oggi
+csvsql --query "select data from MAria_report_temp where data  <  date('$(date '+%Y-%m-%d')')" $cartella/MAria_report_temp.csv > $web/MAria_report.csv
 
 fi
