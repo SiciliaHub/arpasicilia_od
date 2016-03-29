@@ -44,7 +44,7 @@ colonnevuote=$(cat $cartella/campi.csv | grep 'NoneType' | sed 's/,.*$//g' | tr 
 # estraggo un csv che contiene le sole colonne che non sono vuote
 csvcut -C $colonnevuote $cartella/MAria_report_03.csv > $cartella/MAria_report_temp.csv
 
-# rimuovi tutti i record con data precendente a oggi
+# rimuovi tutti i record con data successiva a oggi
 csvsql --query "select * from MAria_report_temp where data  <  date('$(date '+%Y-%m-%d')')" $cartella/MAria_report_temp.csv > $web/MAria_report.csv
 
 fi
