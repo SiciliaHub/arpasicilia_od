@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 ### requirements ###
+# python 2.7
 # csvkit dev, che si installa con "pip install --upgrade -e git+git://github.com/onyxfish/csvkit.git@master#egg=csvkit"
 # agate, che si installa con " pip install agate
 ### requirements ###
