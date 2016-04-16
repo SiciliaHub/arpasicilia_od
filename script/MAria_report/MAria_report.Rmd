@@ -163,6 +163,20 @@ vl
 
 ```
 
+### Maximum per year (PM10)
+
+```{r}
+
+tbl_df(fin) %>% 
+          mutate(year = format(as.Date(date), "%Y")) %>%
+          filter(inq == "PM10", tdm == "Media_24_h") %>%
+          group_by(stazione, year) %>%
+          summarise(max_val = round(max(value, na.rm = TRUE), 2)) %>%
+          ungroup() %>%
+          spread(year, max_val) %>% knitr::kable()
+
+```
+
 ### Days per year with a PM10 value over 50 mg/m3 (max. 35 excedances allowed per year)
 
 ```{r}
