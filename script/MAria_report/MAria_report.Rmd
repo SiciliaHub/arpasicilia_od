@@ -107,11 +107,16 @@ close(con_out)
 
 ```{r Plot_PM10_Enna_Trapani}
 
-fin_enna_pm10 <- subset(fin, subset = stazione %in% c("enna", "trapani") & inq == "PM10" & tdm == "Media_24_h")
-p1 <- ggplot(fin_enna_pm10, aes(x=as.Date(date), y=value, col= stazione)) + geom_line()
-p1 <- p1 + facet_wrap( ~ stazione)
-p1 <- p1 + geom_hline(yintercept = 50, col = "blue")
+fin_pm10 <- subset(fin, subset = stazione %in% c("enna", "trapani", "partinico", 
+                                                 "termini", "termica_milazzo") & 
+                        inq == "PM10" & tdm == "Media_24_h")
+p1 <- ggplot(fin_pm10, aes(x=as.Date(date), y=value, col= stazione)) + geom_line()
 p1 <- p1 + geom_smooth()
+p1 <- p1 + facet_wrap( ~ stazione, nrow = 1)
+p1 <- p1 + geom_hline(yintercept = 50, col = "blue")
+p1 <- p1 + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+p1 <- p1 + labs(x = "Date", y = "value")
+p1 <- p1 + theme(legend.position = 'bottom')
 p1
 
 ```
@@ -121,7 +126,7 @@ p1
 ```{r highcharter, eval = TRUE}
 
 fin_hc <- tbl_df(fin) %>% 
-          filter(stazione %in% c("enna", "trapani"), inq == "PM10", tdm == "Media_24_h") %>%
+          filter(stazione %in% c("enna", "trapani", "termica_milazzo", "partinico", "termini"), inq == "PM10", tdm == "Media_24_h") %>%
           mutate(year_month = format(as.Date(date), "%Y-%m")) %>%
           group_by(stazione, year_month) %>%
           summarise(mean_val = round(mean(value, na.rm = TRUE), 2)) %>%
@@ -132,7 +137,11 @@ fin_hc <- data.frame(fin_hc)
 hc1 <- highchart() %>% 
         hc_xAxis(categories = fin_hc$year_month) %>% 
         hc_add_series(name = "Enna", data = fin_hc[fin_hc$stazione=="enna", "mean_val"]) %>%
+        hc_add_series(name = "Partinico", data = fin_hc[fin_hc$stazione=="partinico", "mean_val"]) %>%
+        hc_add_series(name = "Termica Milazzo", data = fin_hc[fin_hc$stazione=="termica_milazzo", "mean_val"]) %>%
+        hc_add_series(name = "Termini", data = fin_hc[fin_hc$stazione=="termini", "mean_val"]) %>%
         hc_add_series(name = "Trapani", data = fin_hc[fin_hc$stazione=="trapani", "mean_val"])
+
 hc1
 
 ```
