@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 ### requirements ###
+# python 2.7
 # csvkit dev, che si installa con "pip install --upgrade -e git+git://github.com/onyxfish/csvkit.git@master#egg=csvkit"
 # agate, che si installa con " pip install agate
 ### requirements ###
@@ -8,9 +9,19 @@
 #impostare il nome corretto della cartella di lavoro
 cartella="/cartelladilavoro/arpa"
 
+#cartella accessibile via web
+web="/var/www/arpa"
+
 mariaDB="http://88.53.168.210/Bollettino2/MAria_report.xls"
 
-#download file (commentato perché al momento spesso non funzionante)
+# verifico la risposta del server
+code=$(curl -s -o /dev/null -w "%{http_code}" $mariaDB)
+
+# se il file è raggiunbile lo script continua, altrimenti si blocca
+if [ $code -eq 200 ]
+then
+
+#download file 
 #curl -s $mariaDB > $cartella/MAria_report.xls
 
 # converto il file da xls a csv
@@ -32,4 +43,9 @@ csvstat $cartella/MAria_report_03.csv | tee $cartella/MAria_report_03.txt | awk 
 colonnevuote=$(cat $cartella/campi.csv | grep 'NoneType' | sed 's/,.*$//g' | tr '\n' ',' | sed s/,$//g)
 
 # estraggo un csv che contiene le sole colonne che non sono vuote
-csvcut -C $colonnevuote $cartella/MAria_report_03.csv > $cartella/MAria_report_04.csv
+csvcut -C $colonnevuote $cartella/MAria_report_03.csv > $cartella/MAria_report_temp.csv
+
+# rimuovi tutti i record con data successiva a oggi
+csvsql --query "select * from MAria_report_temp where data  <  date('$(date '+%Y-%m-%d')')" $cartella/MAria_report_temp.csv > $web/MAria_report.csv
+
+fi
