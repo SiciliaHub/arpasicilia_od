@@ -1,7 +1,7 @@
 ---
 title: "Maria_report"
 author: "Patrick Hausmann"
-date: "28/03/2016"
+date: '`r Sys.Date()`'
 output:
   github_document:
     html_preview: no
