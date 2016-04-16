@@ -67,7 +67,8 @@ zz %>% knitr::kable()
 
 ```{r}
 
-x <- read.csv("http://dev.opendatasicilia.it/arpa/MAria_report.csv")
+# http://88.53.168.210/Bollettino2/MAria_report.xls
+x <- read.csv("http://blog.spaziogis.it/static/ods/data/mariareport/MAria_report.csv")
 
 colnames(x) <- c("date", unlist(lapply(colnames(x), split_names)))
 
