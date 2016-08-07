@@ -1,35 +1,54 @@
 ---
 title: "Maria_report"
 author: "Patrick Hausmann"
-date: '`r Sys.Date()`'
 output:
   github_document:
     html_preview: no
     toc: yes
     toc_depth: 3
   html_document:
+    fig_caption: yes
+    highlight: tango
+    keep_md: yes
+    number_sections: yes
+    theme: united
     toc: yes
     toc_depth: 3
 always_allow_html: yes
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+options(stringsAsFactors = FALSE, knitr.table.format = 'markdown')
 ```
 
-```{r}
+# Todo
+
+# Load some libraries
+
+```{r load_libs, warning=FALSE, message=FALSE}
+
 library('stringr')
-library('reshape2')
+library('tidyr')
 library('ggplot2')
 library('dplyr')
-library('tidyr')
 library('highcharter')
 library('vegalite')
+library('lubridate')
+library('leaflet')
+library('dygraphs')
+library('xts')
+library('rbokeh')
 
-options(stringsAsFactors = FALSE)
 ```
 
 ```{r}
+
+ma_theme <- function(base_size=12, base_family="helvetica") {
+                      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+                      legend.position = 'bottom')
+}
 
 split_names <- function(m) {
    stazione <- zz$stazione[which(str_detect(m, zz$stazione))]
@@ -63,28 +82,97 @@ parcheggio_agip;NA;NA
 zz %>% knitr::kable()
 ```
 
-### Import the data
+# Import the data
 
 ```{r}
 
-# http://88.53.168.210/Bollettino2/MAria_report.xls
+# http://www.arpa.sicilia.it/storage/MAria_report.xls
 x <- read.csv("http://blog.spaziogis.it/static/ods/data/mariareport/MAria_report.csv")
 
 colnames(x) <- c("date", unlist(lapply(colnames(x), split_names)))
 
-xm <- melt(x, id = "date")
-xm$variable <- as.character(xm$variable)
+xm <- gather(x, variable, value, -date)
+#xm$variable <- as.character(xm$variable)
 
 u <- data.frame(do.call("rbind", strsplit(xm$variable, "__")), stringsAsFactors = FALSE)
 colnames(u) <- c("stazione", "inq", "tdm")
 fin <- data.frame(u, date = xm$date, value = xm$value)
 
-head(fin) %>% knitr::kable()
+knitr::kable(head(fin))
+
+knitr::kable(tail(fin))
 
 # most recent day
 max(as.Date(fin[!is.na(fin$value), "date"]))
 
 ```
+
+
+```{r}
+addmargins(table(fin$inq, fin$tdm, useNA = "always")) %>% knitr::kable()
+```
+
+```{r Cloudant, eval = FALSE, include = FALSE}
+# Store data into a Cloudant(CouchDB) database (only "O3" and "PM10")
+
+library('sofa')
+
+f_enna_pm10 <- fin[fin$stazione == "enna" & fin$inq == "PM10", ]
+f_enna_pm10$date <- format(as.Date(f_enna_pm10$date), "%FT%T%.000Z")
+f_enna_pm10$stazione <- NULL
+f_enna_pm10 <- f_enna_pm10[1:100, ]
+
+v <-list(project = "OpenDataSicilia ARPA", 
+         fonte_dati = "http://www.arpa.sicilia.it/", 
+         licenza ="Opendata IODL 2.0", 
+         licenza_link = "http://www.dati.gov.it/iodl/2.0/", 
+         risultati = list(stazione = list(id = 4, 
+                                          nome = "enna", 
+                                          comune = "enna", 
+                                          misure = f_enna_pm10)))
+#uu <- toJSON(v, pretty = TRUE, auto_unbox = TRUE)
+
+db_create(cushion = "localhost", dbname="enna", delifexists = TRUE)
+
+doc_create(v, dbname= "enna")
+
+function(doc) {
+  doc.risultati.stazione.misure && doc.risultati.stazione.misure.forEach(function(tag) {
+    emit([tag.inq, tag.tdm, tag.date], tag.value);
+  });
+}
+
+#http://127.0.0.1:5984/enna/_design/oben/_view/unten
+
+write_cloudant <- function(df, inq) {
+
+  df <- df[df$inq %in% inq, ]
+  
+  df$date <- format(as.Date(df$date), "%FT%T%.000Z")
+
+  # Set up Cloudant CouchDB
+  cushion(name = 'maria_cl4', 
+          user = Sys.getenv("USER_MARIA"),
+          pwd  = Sys.getenv("PWD_MARIA"), 
+          type = "cloudant")
+  
+  # Always use 'bulk_create'
+  bulk_create(df, "maria_cl4", dbname = "maria")
+}
+
+write_cloudant(fin, inq = c("O3", "PM10"))
+
+```
+
+Read the data
+
+ - [Cloudant-DB](https://opps.cloudant.com/maria/)
+
+ - [https://opps.cloudant.com/maria/_design/stats/_view/q1?limit=50&reduce=false](https://opps.cloudant.com/maria/_design/stats/_view/q1?limit=50&reduce=false)
+ 
+ - [Q2](https://opps.cloudant.com/maria/_design/stats/_view/q2?descending=false&limit=10&include_docs=true)
+ 
+# Overview
 
 ```{r}
 addmargins(table(fin$stazione, !is.na(fin$value), useNA= "always")) %>% knitr::kable()
@@ -92,41 +180,125 @@ addmargins(table(fin$stazione, !is.na(fin$value), useNA= "always")) %>% knitr::k
 
 
 ```{r}
-addmargins(table(fin$stazione, fin$inq, useNA= "always")) %>% knitr::kable()
+addmargins(with(fin[!is.na(fin$value), ], table(stazione, inq, useNA= "always"))) %>% knitr::kable()
 ```
 
-### Export csv file (gzipped)
+# Export csv file (gzipped)
 
-```{r}
+```{r export_csv}
 con_out <- gzfile("maria_report_04_long.csv.gz", open = "wb")
    write.csv(fin, file = con_out, row.names = FALSE)
 close(con_out)
 ```
 
-### PM10 - Enna e Trapani
+# PM10
 
-```{r Plot_PM10_Enna_Trapani}
+```{r Plot_PM10, fig.height=8, fig.width=12}
 
 fin_pm10 <- subset(fin, subset = stazione %in% c("enna", "trapani", "partinico", 
-                                                 "termini", "termica_milazzo") & 
+                                                 "misterbianco", "termini", 
+                                                 "termica_milazzo") & 
                         inq == "PM10" & tdm == "Media_24_h")
 p1 <- ggplot(fin_pm10, aes(x=as.Date(date), y=value, col= stazione)) + geom_line()
 p1 <- p1 + geom_smooth()
 p1 <- p1 + facet_wrap( ~ stazione, nrow = 1)
 p1 <- p1 + geom_hline(yintercept = 50, col = "blue")
-p1 <- p1 + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 p1 <- p1 + labs(x = "Date", y = "value")
-p1 <- p1 + theme(legend.position = 'bottom')
+p1 <- p1 + ma_theme()
 p1
 
 ```
 
-### Highcharter
+# O3
+
+```{r Plot_O3, fig.height=8, fig.width=12}
+
+fin_o3 <- subset(fin, subset = stazione %in% c("enna", "trapani", "partinico", 
+                                               "misterbianco", "termini", 
+                                               "termica_milazzo") & 
+                        inq == "O3" & tdm == "Max_media_8h")
+p1 <- ggplot(fin_o3, aes(x=as.Date(date), y=value, col= stazione)) + geom_line()
+p1 <- p1 + geom_smooth()
+p1 <- p1 + facet_wrap( ~ stazione, nrow = 1)
+#p1 <- p1 + geom_hline(yintercept = 50, col = "blue")
+p1 <- p1 + labs(x = "Date", y = "value")
+p1 <- p1 + ma_theme()
+p1
+
+```
+
+# Number of missing observations by stazione, year and month (PM10)
+
+```{r}
+
+missing_by_yr_month <- function(x) {
+  z <- tbl_df(x) %>%
+       dplyr::filter(is.na(value)) %>%
+       mutate(yr = year(ymd(date)), month = month(ymd(date))) %>%
+       select(stazione, yr, month) %>% 
+       ungroup()
+  with(z, table(yr, month, stazione))
+}
+
+(kx1 <- missing_by_yr_month(fin_pm10))
+
+# year 2016
+addmargins(t(kx1["2016",1:12,]), 1)
+
+```
+
+
+```{r Plot_PM10_smooth_trimmed, fig.height=8, fig.width=12}
+
+# Trim observations from each end before the computation
+trim_obs <- function(x, trim) {
+  m <- c(quantile(x, probs = trim, na.rm = TRUE), 
+         quantile(x, probs = 1 - trim, na.rm = TRUE))
+  print(m)
+  out <- (x >= m[1] & x <= m[2])
+  return(out)
+}
+
+fin_pm10_trim <- tbl_df(fin_pm10) %>%
+                 group_by(stazione) %>%
+                 mutate(ixd = trim_obs(value, 0.5/100)) %>%
+                 ungroup() 
+
+table(fin_pm10_trim$stazione, fin_pm10_trim$ixd)
+
+fin_pm10_trim <- dplyr::filter(fin_pm10_trim, ixd == TRUE)
+
+p2 <- ggplot(fin_pm10_trim, aes(x=as.Date(date), y=value, col = stazione))
+p2 <- p2 + geom_smooth()
+p2 <- p2 + facet_wrap( ~ stazione, nrow = 1)
+p2 <- p2 + labs(x = "Date", y = "value")
+p2 <- p2 + ma_theme()
+p2
+
+```
+
+
+```{r Plot_PM10_boxplot_trimmed, fig.height=8, fig.width=12}
+
+fin_pm10_trim$date <- as.character(year(as.Date(fin_pm10_trim$date)))
+
+p3 <- ggplot(fin_pm10_trim, aes(x = date, y = value, group = stazione, col = stazione))
+p3 <- p3 + geom_boxplot(group = 2) + geom_jitter(width = 0.2, alpha = 0.35)
+p3 <- p3 + facet_wrap( ~ stazione, nrow = 1)
+p3 <- p3 + labs(x = "Date", y = "value")
+p3 <- p3 + ma_theme()
+p3
+
+```
+
+# Highcharter
 
 ```{r highcharter, eval = TRUE}
 
 fin_hc <- tbl_df(fin) %>% 
-          filter(stazione %in% c("enna", "trapani", "termica_milazzo", "partinico", "termini"), inq == "PM10", tdm == "Media_24_h") %>%
+          dplyr::filter(stazione %in% c("enna", "trapani", "termica_milazzo", 
+                                        "partinico", "termini"), 
+                        inq == "PM10", tdm == "Media_24_h") %>%
           mutate(year_month = format(as.Date(date), "%Y-%m")) %>%
           group_by(stazione, year_month) %>%
           summarise(mean_val = round(mean(value, na.rm = TRUE), 2)) %>%
@@ -146,7 +318,7 @@ hc1
 
 ```
 
-### Vegalite
+# Vegalite
 
 ```{r Vegalite}
 
@@ -163,13 +335,66 @@ vl
 
 ```
 
-### Maximum per year (PM10)
+# Dygraph
+
+```{r dygrapgh, fig.height=5, fig.width=10}
+
+xdy <- fin_pm10[fin_pm10$stazione == "enna", ]
+dygraph(xts(xdy$value, order.by = as.POSIXct(xdy$date)), 
+            main = "Enna // Inquinante: PM10")  %>% 
+        dyRangeSelector()
+
+```
+
+# Dygraph, trimmed values
+
+```{r dygrapgh_trim, fig.height=5, fig.width=10}
+
+fin_pm10_trim <- tbl_df(fin_pm10) %>%
+                 group_by(stazione) %>%
+                 mutate(ixd = trim_obs(value, 0.5/100)) %>%
+                 ungroup() 
+
+fin_pm10_trim <- dplyr::filter(fin_pm10_trim, ixd == TRUE)
+
+xdy1 <- fin_pm10_trim[fin_pm10_trim$stazione == "enna", ]
+dygraph(xts(xdy1$value, order.by = as.POSIXct(xdy1$date)), 
+            main = "Enna // Inquinante: PM10, trimmed values")  %>% 
+        dyRangeSelector()
+
+```
+
+# rbokeh
+
+```{r rbokeh_density}
+
+# Trimmed values, PM10, Enna
+
+figure(width = 800, height = 600) %>%
+       ly_hist(value, data = xdy1, breaks = 40, freq = FALSE) %>%
+       ly_density(value, data = xdy1)
+
+```
+
+
+```{r rbokeh_quantile}
+
+xdy2 <- fin_pm10_trim[fin_pm10_trim$stazione %in% c("enna", "termini"), ]
+
+figure(legend_location = "top_left") %>%
+  ly_quantile(value, group = stazione, data = xdy2)
+
+```
+
+
+
+# Maximum per year (PM10)
 
 ```{r}
 
 tbl_df(fin) %>% 
           mutate(year = format(as.Date(date), "%Y")) %>%
-          filter(inq == "PM10", tdm == "Media_24_h") %>%
+          dplyr::filter(inq == "PM10", tdm == "Media_24_h") %>%
           group_by(stazione, year) %>%
           summarise(max_val = round(max(value, na.rm = TRUE), 2)) %>%
           ungroup() %>%
@@ -177,23 +402,31 @@ tbl_df(fin) %>%
 
 ```
 
-### Days per year with a PM10 value over 50 mg/m3 (max. 35 excedances allowed per year)
+# Days per year with a PM10 value over 50 mg/m3 (max. 35 excedances allowed per year)
 
-```{r}
+```{r, eval = TRUE}
 
 m <- tbl_df(fin) %>%
-       filter(inq == "PM10") %>%
+       dplyr::filter(inq == "PM10") %>%
        mutate(year = format(as.Date(date), "%Y")) %>%
        group_by(stazione, year) %>%
        mutate(days_gt50 = cumsum(ifelse(!is.na(value) & value > 50, 1, 0))) %>%
        select(stazione, year, days_gt50) %>%
-       top_n(1, days_gt50) %>%
-       distinct(stazione, year) %>%
-       ungroup() %>%
-       arrange(stazione, year)
+       top_n(1, days_gt50)
+       #distinct(stazione, year)
 
-spread(m, year, days_gt50) %>% knitr::kable()
+spread(unique(m), year, days_gt50) %>% knitr::kable()
 
+```
+
+# Mappa stazioni
+
+```{r leaflet, eval = TRUE}
+
+geo_stazioni <- read.csv("http://www.covimo.de/arpa/stazioni.csv")
+leaflet(data = geo_stazioni[1:11, ]) %>% 
+        addTiles() %>%
+        addMarkers(~longitude, ~latitude, popup = ~as.character(Cartella))
 ```
 
 ```{r session_info}
