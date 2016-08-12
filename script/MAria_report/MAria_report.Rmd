@@ -2,16 +2,16 @@
 title: "Maria_report"
 author: "Patrick Hausmann"
 output:
-  github_document:
-    html_preview: no
-    toc: yes
-    toc_depth: 3
   html_document:
     fig_caption: yes
     highlight: tango
     keep_md: yes
     number_sections: yes
     theme: united
+    toc: yes
+    toc_depth: 3
+  github_document:
+    html_preview: no
     toc: yes
     toc_depth: 3
 always_allow_html: yes
@@ -29,6 +29,7 @@ options(stringsAsFactors = FALSE, knitr.table.format = 'markdown')
 
 ```{r load_libs, warning=FALSE, message=FALSE}
 
+library('readr')
 library('stringr')
 library('tidyr')
 library('ggplot2')
@@ -51,6 +52,7 @@ ma_theme <- function(base_size=12, base_family="helvetica") {
 }
 
 split_names <- function(m) {
+
    stazione <- zz$stazione[which(str_detect(m, zz$stazione))]
    inq      <- zz$inq[which(str_detect(m, zz$inq))]
    tdm      <- zz$tdm[which(str_detect(m, zz$tdm))]
@@ -62,21 +64,24 @@ split_names <- function(m) {
 
 zz <- read.table(header = TRUE, sep = ";", text = "
 stazione;inq;tdm
-partinico;SO2;Max_orario
-sasol;CO;Media_24_h
-enna;NO2;Max_media_8h
+partinico;SO2;Maxorario
+sasol;CO;Media24h
+enna;NO2;Maxmedia8h
 ex_autoparco;O3;NA
 trapani;Benzene;NA
-termini;PM10;NA
-cda_gabbia;PM2.5;NA
+termini;PM 10;NA
+cda_gabbia;PM 2e5;NA
 termica_milazzo;NA;NA
 boccetta;NA;NA
+Marcellino;NA;NA
 misterbianco;NA;NA
 megara;NA;NA
 lab_mobile1;NA;NA
-porto_empedocle;NA;NA
-villa_augusta;NA;NA
+PORTO EMPEDOCLE;NA;NA
+VILLA AUGUSTA;NA;NA
 parcheggio_agip;NA;NA
+CAPACI;NA;NA
+ISOLA DELLE FEMMINE;NA;NA
 ")
 
 zz %>% knitr::kable()
@@ -87,16 +92,16 @@ zz %>% knitr::kable()
 ```{r}
 
 # http://www.arpa.sicilia.it/storage/MAria_report.xls
-x <- read.csv("http://blog.spaziogis.it/static/ods/data/mariareport/MAria_report.csv")
+x <- read_csv("http://blog.spaziogis.it/static/ods/data/mariareport/MAria_report_02.csv")
 
 colnames(x) <- c("date", unlist(lapply(colnames(x), split_names)))
 
 xm <- gather(x, variable, value, -date)
-#xm$variable <- as.character(xm$variable)
 
 u <- data.frame(do.call("rbind", strsplit(xm$variable, "__")), stringsAsFactors = FALSE)
 colnames(u) <- c("stazione", "inq", "tdm")
-fin <- data.frame(u, date = xm$date, value = xm$value)
+fin <- data.frame(u, date = xm$date, value = as.numeric(xm$value))
+fin$inq <- gsub("PM 2e5", "PM 2.5", fin$inq)
 
 knitr::kable(head(fin))
 
@@ -107,61 +112,8 @@ max(as.Date(fin[!is.na(fin$value), "date"]))
 
 ```
 
-
 ```{r}
 addmargins(table(fin$inq, fin$tdm, useNA = "always")) %>% knitr::kable()
-```
-
-```{r Cloudant, eval = FALSE, include = FALSE}
-# Store data into a Cloudant(CouchDB) database (only "O3" and "PM10")
-
-library('sofa')
-
-f_enna_pm10 <- fin[fin$stazione == "enna" & fin$inq == "PM10", ]
-f_enna_pm10$date <- format(as.Date(f_enna_pm10$date), "%FT%T%.000Z")
-f_enna_pm10$stazione <- NULL
-f_enna_pm10 <- f_enna_pm10[1:100, ]
-
-v <-list(project = "OpenDataSicilia ARPA", 
-         fonte_dati = "http://www.arpa.sicilia.it/", 
-         licenza ="Opendata IODL 2.0", 
-         licenza_link = "http://www.dati.gov.it/iodl/2.0/", 
-         risultati = list(stazione = list(id = 4, 
-                                          nome = "enna", 
-                                          comune = "enna", 
-                                          misure = f_enna_pm10)))
-#uu <- toJSON(v, pretty = TRUE, auto_unbox = TRUE)
-
-db_create(cushion = "localhost", dbname="enna", delifexists = TRUE)
-
-doc_create(v, dbname= "enna")
-
-function(doc) {
-  doc.risultati.stazione.misure && doc.risultati.stazione.misure.forEach(function(tag) {
-    emit([tag.inq, tag.tdm, tag.date], tag.value);
-  });
-}
-
-#http://127.0.0.1:5984/enna/_design/oben/_view/unten
-
-write_cloudant <- function(df, inq) {
-
-  df <- df[df$inq %in% inq, ]
-  
-  df$date <- format(as.Date(df$date), "%FT%T%.000Z")
-
-  # Set up Cloudant CouchDB
-  cushion(name = 'maria_cl4', 
-          user = Sys.getenv("USER_MARIA"),
-          pwd  = Sys.getenv("PWD_MARIA"), 
-          type = "cloudant")
-  
-  # Always use 'bulk_create'
-  bulk_create(df, "maria_cl4", dbname = "maria")
-}
-
-write_cloudant(fin, inq = c("O3", "PM10"))
-
 ```
 
 Read the data
@@ -198,7 +150,7 @@ close(con_out)
 fin_pm10 <- subset(fin, subset = stazione %in% c("enna", "trapani", "partinico", 
                                                  "misterbianco", "termini", 
                                                  "termica_milazzo") & 
-                        inq == "PM10" & tdm == "Media_24_h")
+                        inq == "PM 10" & tdm == "Media24h")
 p1 <- ggplot(fin_pm10, aes(x=as.Date(date), y=value, col= stazione)) + geom_line()
 p1 <- p1 + geom_smooth()
 p1 <- p1 + facet_wrap( ~ stazione, nrow = 1)
@@ -216,11 +168,10 @@ p1
 fin_o3 <- subset(fin, subset = stazione %in% c("enna", "trapani", "partinico", 
                                                "misterbianco", "termini", 
                                                "termica_milazzo") & 
-                        inq == "O3" & tdm == "Max_media_8h")
+                        inq == "O3" & tdm == "Maxmedia8h")
 p1 <- ggplot(fin_o3, aes(x=as.Date(date), y=value, col= stazione)) + geom_line()
 p1 <- p1 + geom_smooth()
 p1 <- p1 + facet_wrap( ~ stazione, nrow = 1)
-#p1 <- p1 + geom_hline(yintercept = 50, col = "blue")
 p1 <- p1 + labs(x = "Date", y = "value")
 p1 <- p1 + ma_theme()
 p1
@@ -298,7 +249,7 @@ p3
 fin_hc <- tbl_df(fin) %>% 
           dplyr::filter(stazione %in% c("enna", "trapani", "termica_milazzo", 
                                         "partinico", "termini"), 
-                        inq == "PM10", tdm == "Media_24_h") %>%
+                        inq == "PM 10", tdm == "Media24h") %>%
           mutate(year_month = format(as.Date(date), "%Y-%m")) %>%
           group_by(stazione, year_month) %>%
           summarise(mean_val = round(mean(value, na.rm = TRUE), 2)) %>%
@@ -394,7 +345,7 @@ figure(legend_location = "top_left") %>%
 
 tbl_df(fin) %>% 
           mutate(year = format(as.Date(date), "%Y")) %>%
-          dplyr::filter(inq == "PM10", tdm == "Media_24_h") %>%
+          dplyr::filter(inq == "PM 10", tdm == "Media24h") %>%
           group_by(stazione, year) %>%
           summarise(max_val = round(max(value, na.rm = TRUE), 2)) %>%
           ungroup() %>%
@@ -407,7 +358,7 @@ tbl_df(fin) %>%
 ```{r, eval = TRUE}
 
 m <- tbl_df(fin) %>%
-       dplyr::filter(inq == "PM10") %>%
+       dplyr::filter(inq == "PM 10") %>%
        mutate(year = format(as.Date(date), "%Y")) %>%
        group_by(stazione, year) %>%
        mutate(days_gt50 = cumsum(ifelse(!is.na(value) & value > 50, 1, 0))) %>%
